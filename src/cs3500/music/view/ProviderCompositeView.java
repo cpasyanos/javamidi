@@ -10,10 +10,6 @@ import java.awt.event.MouseListener;
  * The concrete adapter of our provider's composite view to our view interface.
  */
 public class ProviderCompositeView extends AProviderView {
-  @Override
-  public void assignPiece(IPiece piece) {
-
-  }
 
   @Override
   public void show(int beat) {
