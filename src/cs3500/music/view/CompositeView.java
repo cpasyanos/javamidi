@@ -1,7 +1,7 @@
 package cs3500.music.view;
 
+import cs3500.music.model.IPiece;
 import cs3500.music.model.Note;
-import cs3500.music.model.ViewModel;
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -62,7 +62,7 @@ public class CompositeView implements IGUIView {
   }
 
   @Override
-  public void assignPiece(ViewModel piece) {
+  public void assignPiece(IPiece piece) {
     midiView.assignPiece(piece);
     guiView.assignPiece(piece);
   }

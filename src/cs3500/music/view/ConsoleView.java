@@ -1,7 +1,7 @@
 package cs3500.music.view;
 
+import cs3500.music.model.IPiece;
 import cs3500.music.model.Note;
-import cs3500.music.model.ViewModel;
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -10,7 +10,7 @@ import java.awt.event.MouseListener;
  * A static text view of the piece, outputted to the compiler console.
  */
 public class ConsoleView implements IView {
-  ViewModel piece;
+  private IPiece piece;
   private String consoleText;
   
   public ConsoleView() {
@@ -19,7 +19,7 @@ public class ConsoleView implements IView {
   }
   
   @Override
-  public void assignPiece(ViewModel piece) {
+  public void assignPiece(IPiece piece) {
     this.piece = piece;
     this.consoleText = piece.toString();
   }

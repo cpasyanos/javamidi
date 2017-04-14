@@ -2,6 +2,7 @@ package cs3500.music.view;
 
 import cs3500.music.controller.KeyHandler;
 import cs3500.music.model.Beat;
+import cs3500.music.model.IPiece;
 import cs3500.music.model.Note;
 import cs3500.music.model.ViewModel;
 
@@ -24,7 +25,7 @@ import java.util.List;
  * in order to fit the pieces with a wider range of notes.
  */
 public class GUIView implements IGUIView {
-  private ViewModel piece;
+  private IPiece piece;
   private MusicFrame frame;
   private JScrollPane scoreHolder;
   private ScoreGraphic score;
@@ -62,7 +63,7 @@ public class GUIView implements IGUIView {
   
   
   @Override
-  public void assignPiece(ViewModel piece) {
+  public void assignPiece(IPiece piece) {
     this.piece = piece;
     this.frame.setPiece(piece);
     this.piano = new PianoGraphic(this.piece, this.getList());
