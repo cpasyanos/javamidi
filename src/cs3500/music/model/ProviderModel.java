@@ -22,6 +22,7 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
 
   @Override
   public MusicModel combine(MusicModel given) throws IllegalArgumentException {
+    // todo
     return null;
   }
 
@@ -54,12 +55,14 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
 
   @Override
   public HashMap<Integer, HashMap<Integer, Beat>> map() {
+    // TODO: 4/14/2017 do this 
     return null;
   }
 
   @Override
   public int number() {
-    return 0;
+    // TODO: 4/14/2017 is this correct 
+    return piece.getNoteRange();
   }
 
   @Override
@@ -74,6 +77,7 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
    * @return our pitch
    */
   private Pitch getPitchFromProvider(int providerPitch) {
+    // TODO: 4/14/2017 allign with providers 
     return Pitch.getPitchFromVal(providerPitch % 12);
   }
 
@@ -84,6 +88,7 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
    * @return our pitch
    */
   private int getOctaveFromProvider(int providerPitch) {
+    // TODO: 4/14/2017 allign with providers 
     return (int) Math.floor(providerPitch % 12);
   }
 }
