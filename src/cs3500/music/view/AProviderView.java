@@ -1,8 +1,7 @@
 package cs3500.music.view;
 
-// import cs3500.music.model.IPiece;
 // import cs3500.music.provider.view.IView;
-
+import cs3500.music.model.IPiece;
 
 /**
  * An abstract adapter from our provider's view to our view.
@@ -15,5 +14,10 @@ public abstract class AProviderView implements cs3500.music.view.IView {
    */
   public AProviderView() {
     this.view = null;
+  }
+
+  @Override
+  public void assignPiece(IPiece model) {
+
   }
 }
