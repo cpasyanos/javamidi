@@ -1,6 +1,7 @@
 package cs3500.music.view;
 
 import cs3500.music.model.Beat;
+import cs3500.music.model.IPiece;
 import cs3500.music.model.Note;
 import cs3500.music.model.ViewModel;
 
@@ -20,7 +21,7 @@ import java.awt.event.MouseListener;
 public class MidiView implements IView {
   private Synthesizer synth;
   private Receiver receiver;
-  private ViewModel viewModel;
+  private IPiece viewModel;
   private int currBeat;
   private boolean paused;
 
@@ -65,7 +66,7 @@ public class MidiView implements IView {
   }
 
   @Override
-  public void assignPiece(ViewModel piece) {
+  public void assignPiece(IPiece piece) {
     this.viewModel = piece;
   }
 
