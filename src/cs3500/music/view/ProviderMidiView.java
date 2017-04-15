@@ -21,12 +21,6 @@ public class ProviderMidiView extends AProviderView {
     // this.view = new MidiViewImpl();
   }
 
-
-  @Override
-  public void show(int beat) {
-
-  }
-
   @Override
   public void scrollForward() {
 

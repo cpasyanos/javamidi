@@ -1,9 +1,8 @@
 package cs3500.music.view;
 
-// import cs3500.music.provider.view.IView;
-import cs3500.music.model.IPiece;
-import cs3500.music.model.ProviderModel;
-import cs3500.music.provider.model.MusicModel;
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiUnavailableException;
+import java.util.Objects;
 
 /**
  * An abstract adapter from our provider's view to our view.
@@ -17,5 +16,18 @@ public abstract class AProviderView implements cs3500.music.view.IView {
    */
   public AProviderView() {
     this.view = null;
+  }
+
+  @Override
+  public void show(int beat) {
+    Objects.requireNonNull(view);
+
+    try {
+      view.initialize();
+    } catch (InvalidMidiDataException e) {
+      // do nothing
+    } catch (MidiUnavailableException e) {
+      // do nothing
+    }
   }
 }

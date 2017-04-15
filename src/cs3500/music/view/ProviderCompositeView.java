@@ -23,11 +23,6 @@ public class ProviderCompositeView extends AProviderView {
   }
 
   @Override
-  public void show(int beat) {
-
-  }
-
-  @Override
   public void scrollForward() {
 
   }
