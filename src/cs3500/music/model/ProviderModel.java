@@ -56,7 +56,6 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
 
   @Override
   public HashMap<Integer, HashMap<Integer, cs3500.music.provider.model.Beat>> map() {
-    // TODO: 4/14/2017 do this
     HashMap<Integer, HashMap<Integer, cs3500.music.provider.model.Beat>> tempMap =
             new HashMap<Integer, HashMap<Integer, cs3500.music.provider.model.Beat>>();
     List<cs3500.music.model.Beat> beatList = piece.getBeats();
@@ -76,7 +75,6 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
 
   @Override
   public int number() {
-    // TODO: 4/14/2017 is this correct 
     return 127;
   }
 
