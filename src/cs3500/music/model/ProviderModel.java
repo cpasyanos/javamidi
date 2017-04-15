@@ -4,6 +4,7 @@ import cs3500.music.provider.model.*;
 import cs3500.music.provider.model.Beat;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * An adapter of our music model to our provider's music model interface.
@@ -54,15 +55,28 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
   }
 
   @Override
-  public HashMap<Integer, HashMap<Integer, Beat>> map() {
+  public HashMap<Integer, HashMap<Integer, cs3500.music.provider.model.Beat>> map() {
     // TODO: 4/14/2017 do this
-    return null;
+    HashMap<Integer, HashMap<Integer, cs3500.music.provider.model.Beat>> tempMap =
+            new HashMap<Integer, HashMap<Integer, cs3500.music.provider.model.Beat>>();
+    List<cs3500.music.model.Beat> beatList = piece.getBeats();
+
+    for (int i = 0; i < piece.getNumBeats(); i++) {
+      for(Note n: beatList.get(i).getNotesAt()) {
+        int mapInt = 0;
+
+        tempMap.get(i).put(mapInt, this.noteToProviderBeat(n));
+        mapInt++;
+      }
+    }
+
+    return tempMap;
   }
 
   @Override
   public int number() {
     // TODO: 4/14/2017 is this correct 
-    return piece.getNoteRange();
+    return 127;
   }
 
   @Override
@@ -78,7 +92,7 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
    */
   private Pitch getPitchFromProvider(int providerPitch) {
     // TODO: 4/14/2017 allign with providers 
-    return Pitch.getPitchFromVal(providerPitch % 12);
+    return Pitch.getPitchFromVal((providerPitch - 1) % 12);
   }
 
   /**
@@ -90,5 +104,18 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
   private int getOctaveFromProvider(int providerPitch) {
     // TODO: 4/14/2017 allign with providers 
     return (int) Math.floor(providerPitch % 12);
+  }
+
+  /**
+   * Converts our Note into the Provider's equivalent object.
+   * @param note the note to be converted.
+   * @return the Provider's equivalent notion.
+   */
+  private cs3500.music.provider.model.Beat noteToProviderBeat(Note note) {
+    cs3500.music.provider.model.Beat tempBeat =
+            new cs3500.music.provider.model.Beat(note.getInstrument() + 1,
+                    note.getMidiVal(), note.getVolume(), 1, note.getDuration());
+
+    return tempBeat;
   }
 }
