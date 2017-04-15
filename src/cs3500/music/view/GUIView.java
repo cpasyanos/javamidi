@@ -4,7 +4,6 @@ import cs3500.music.controller.KeyHandler;
 import cs3500.music.model.Beat;
 import cs3500.music.model.IPiece;
 import cs3500.music.model.Note;
-import cs3500.music.model.ViewModel;
 
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;

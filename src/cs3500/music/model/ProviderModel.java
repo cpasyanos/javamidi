@@ -1,7 +1,6 @@
 package cs3500.music.model;
 
 import cs3500.music.provider.model.MusicModel;
-import cs3500.music.provider.model.Beat;
 
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +62,7 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
     for (int i = 0; i < piece.getNumBeats(); i++) {
       tempMap.put(i, new HashMap<Integer, cs3500.music.provider.model.Beat>());
 
-      for(Note n: beatList.get(i).getNotesAt()) {
+      for (Note n : beatList.get(i).getNotesAt()) {
         int mapInt = 0;
         tempMap.get(i).put(mapInt, this.noteToProviderBeat(n));
         mapInt++;
