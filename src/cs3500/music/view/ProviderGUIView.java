@@ -22,11 +22,6 @@ public class ProviderGUIView extends AProviderView {
   }
 
   @Override
-  public void show(int beat) {
-
-  }
-
-  @Override
   public void scrollForward() {
 
   }
