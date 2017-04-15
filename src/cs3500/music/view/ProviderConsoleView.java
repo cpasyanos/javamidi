@@ -2,6 +2,9 @@ package cs3500.music.view;
 
 import cs3500.music.model.IPiece;
 import cs3500.music.model.Note;
+import cs3500.music.model.ProviderModel;
+import cs3500.music.provider.model.MusicModel;
+import cs3500.music.provider.view.TextualView;
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -12,8 +15,10 @@ import java.awt.event.MouseListener;
 public class ProviderConsoleView extends AProviderView {
 
   @Override
-  public void assignPiece(IPiece piece) {
+  public void assignPiece(IPiece model) {
+    MusicModel providerModel = new ProviderModel(model);
 
+    this.view = new TextualView(providerModel);
   }
 
   @Override
