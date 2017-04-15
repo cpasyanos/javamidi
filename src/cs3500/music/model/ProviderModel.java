@@ -58,15 +58,11 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
   public HashMap<Integer, HashMap<Integer, cs3500.music.provider.model.Beat>> map() {
     // TODO: 4/14/2017 do this
     HashMap<Integer, HashMap<Integer, cs3500.music.provider.model.Beat>> tempMap =
-            new HashMap<Integer, HashMap<Integer, cs3500.music.provider.model.Beat>>(512);
+            new HashMap<Integer, HashMap<Integer, cs3500.music.provider.model.Beat>>();
     List<cs3500.music.model.Beat> beatList = piece.getBeats();
 
     for (int i = 0; i < piece.getNumBeats(); i++) {
-      tempMap.put(i, new HashMap<Integer, cs3500.music.provider.model.Beat>(256));
-
-      /*for (int j = 0; j < 128; j++) {
-        tempMap.get(i).put(j, null);
-      }*/
+      tempMap.put(i, new HashMap<Integer, cs3500.music.provider.model.Beat>());
 
       for(Note n: beatList.get(i).getNotesAt()) {
         int mapInt = 0;
