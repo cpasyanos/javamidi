@@ -1,7 +1,11 @@
 package cs3500.music.view;
 
+import cs3500.music.model.Note;
+
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.util.Objects;
 
 /**
@@ -35,5 +39,40 @@ public abstract class AProviderView implements cs3500.music.view.IView {
     else {
       //do nothing
     }
+  }
+
+  @Override
+  public void scrollForward() {
+    // do nothing
+  }
+
+  @Override
+  public void scrollBack() {
+    // do nothing
+  }
+
+  @Override
+  public void addKeyListener(KeyListener listener) {
+    // do nothing
+  }
+
+  @Override
+  public void addMouseListener(MouseListener listener) {
+    // do nothing
+  }
+
+  @Override
+  public void togglePause() {
+    // do nothing
+  }
+
+  @Override
+  public Note getNoteOnPiano() {
+    return null;
+  }
+
+  @Override
+  public void update() {
+    // do nothing
   }
 }
