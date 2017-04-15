@@ -55,7 +55,7 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
 
   @Override
   public HashMap<Integer, HashMap<Integer, Beat>> map() {
-    // TODO: 4/14/2017 do this 
+    // TODO: 4/14/2017 do this
     return null;
   }
 
