@@ -3,6 +3,7 @@ package cs3500.music.test;
 import cs3500.music.controller.MockController;
 import org.junit.Test;
 
+
 import javax.swing.JFrame;
 
 import static org.junit.Assert.assertEquals;
