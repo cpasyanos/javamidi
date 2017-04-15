@@ -96,7 +96,7 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
    * @return our pitch
    */
   private Pitch getPitchFromProvider(int providerPitch) {
-    // TODO: 4/14/2017 allign with providers 
+    // TODO: 4/14/2017 align with providers
     return Pitch.getPitchFromVal((providerPitch - 1) % 12);
   }
 
@@ -107,7 +107,7 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
    * @return our pitch
    */
   private int getOctaveFromProvider(int providerPitch) {
-    // TODO: 4/14/2017 allign with providers 
+    // TODO: 4/14/2017 align with providers
     return (int) Math.floor(providerPitch % 12);
   }
 
