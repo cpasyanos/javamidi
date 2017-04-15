@@ -18,7 +18,7 @@ public class ProviderGUIView extends AProviderView {
   public void assignPiece(IPiece model) {
     MusicModel providerModel = new ProviderModel(model);
 
-    // this.view = new GuiViewFrame();
+    this.view = new GuiViewFrame(providerModel.map(), providerModel.map().size());
   }
 
   @Override
