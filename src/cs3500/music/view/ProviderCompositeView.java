@@ -4,9 +4,10 @@ import cs3500.music.model.IPiece;
 import cs3500.music.model.Note;
 import cs3500.music.model.ProviderModel;
 import cs3500.music.provider.model.MusicModel;
-import cs3500.music.provider.view.*;
 import cs3500.music.provider.view.CompositeView;
 
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
@@ -19,7 +20,12 @@ public class ProviderCompositeView extends AProviderView {
   public void assignPiece(IPiece model) {
     MusicModel providerModel = new ProviderModel(model);
 
-    // this.view = new cs3500.music.provider.view.CompositeView(providerModel, );
+    try {
+      this.view = new cs3500.music.provider.view.CompositeView(providerModel,
+              MidiSystem.getSequencer());
+    } catch (MidiUnavailableException e) {
+      // do nothing
+    }
   }
 
   @Override

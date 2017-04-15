@@ -20,14 +20,20 @@ public abstract class AProviderView implements cs3500.music.view.IView {
 
   @Override
   public void show(int beat) {
-    Objects.requireNonNull(view);
+    if (beat == 0) {
 
-    try {
-      view.initialize();
-    } catch (InvalidMidiDataException e) {
-      // do nothing
-    } catch (MidiUnavailableException e) {
-      // do nothing
+      Objects.requireNonNull(view);
+
+      try {
+        view.initialize();
+      } catch (InvalidMidiDataException e) {
+        // do nothing
+      } catch (MidiUnavailableException e) {
+        // do nothing
+      }
+    }
+    else {
+      //do nothing
     }
   }
 }
