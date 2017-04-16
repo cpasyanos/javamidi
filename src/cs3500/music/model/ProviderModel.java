@@ -1,6 +1,7 @@
 package cs3500.music.model;
 
 import cs3500.music.provider.model.MusicModel;
+import cs3500.music.provider.model.Beat;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
  */
 public class ProviderModel implements cs3500.music.provider.model.MusicModel {
   private IPiece piece;
+  private int volume; //I dont entirely understand what this is.
 
   public ProviderModel(IPiece piece) {
     this.piece = piece;
@@ -55,26 +57,32 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
 
   @Override
   public HashMap<Integer, HashMap<Integer, cs3500.music.provider.model.Beat>> map() {
-    HashMap<Integer, HashMap<Integer, cs3500.music.provider.model.Beat>> tempMap =
-            new HashMap<Integer, HashMap<Integer, cs3500.music.provider.model.Beat>>();
-    List<cs3500.music.model.Beat> beatList = piece.getBeats();
-
+    HashMap<Integer, HashMap<Integer, cs3500.music.provider.model.Beat>> result = new HashMap<>();
+    for (int i = 0; i < 128; i++) {
+      result.put(i, new HashMap<Integer, Beat>());
+    }
     for (int i = 0; i < piece.getNumBeats(); i++) {
-      tempMap.put(i, new HashMap<Integer, cs3500.music.provider.model.Beat>());
 
-      for (Note n : beatList.get(i).getNotesAt()) {
-        int mapInt = 0;
-        tempMap.get(i).put(mapInt, this.noteToProviderBeat(n));
-        mapInt++;
+      for (Note n : piece.getBeats().get(i).getNotesAt()) {
+
+        if (n.getFirstBeatOf() + n.getDuration() > this.volume) {
+          this.volume = n.getFirstBeatOf() + n.getDuration();
+        }
+
+        HashMap<Integer, Beat> tem = result.get(n.getMidiVal());
+        tem.put(n.getFirstBeatOf(), new Beat(n.getInstrument(), n.getMidiVal(), volume, 1, n.getDuration()));
+        for (int j = n.getFirstBeatOf() + 1; i <= n.getFirstBeatOf() + n.getDuration(); i++) {
+          tem.put(j, this.noteToProviderBeat(n));
+        }
       }
     }
 
-    return tempMap;
+    return result;
   }
 
   @Override
   public int number() {
-    return 127;
+    return this.volume;
   }
 
   @Override
