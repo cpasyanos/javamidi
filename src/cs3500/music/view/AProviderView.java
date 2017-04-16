@@ -6,7 +6,6 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
-import java.util.HashMap;
 import java.util.Objects;
 
 /**

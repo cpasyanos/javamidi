@@ -4,7 +4,6 @@ import cs3500.music.provider.model.MusicModel;
 import cs3500.music.provider.model.Beat;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * An adapter of our music model to our provider's music model interface.
@@ -70,7 +69,8 @@ public class ProviderModel implements cs3500.music.provider.model.MusicModel {
         }
 
         HashMap<Integer, Beat> tem = result.get(n.getMidiVal());
-        tem.put(n.getFirstBeatOf(), new Beat(n.getInstrument(), n.getMidiVal(), volume, 1, n.getDuration()));
+        tem.put(n.getFirstBeatOf(),
+                new Beat(n.getInstrument(), n.getMidiVal(), volume, 1, n.getDuration()));
         for (int j = n.getFirstBeatOf() + 1; i <= n.getFirstBeatOf() + n.getDuration(); i++) {
           tem.put(j, this.noteToProviderBeat(n));
         }
