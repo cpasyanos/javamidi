@@ -72,4 +72,16 @@ public interface IPiece {
    * @return the list of beats.
    */
   List<Beat> getBeats();
+
+  /**
+   * Increments the tempo by the given amount.
+   * @param increment the amount to increase the tempo by.
+   */
+  void incrementTempo(int increment);
+
+  /**
+   * Decrements the tempo by the given amount.
+   * @param decrement the amount to decrease the tempo by.
+   */
+  void decrementTempo(int decrement);
 }

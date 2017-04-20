@@ -288,10 +288,24 @@ public class Piece implements IPiece {
     
     return tempList;
   }
-  
+
+  @Override
+  public void incrementTempo(int increment) {
+    // only decrement if it will not make the tempo negative
+    if (tempo - increment > 0) {
+      tempo -= increment;
+    }
+  }
+
+  @Override
+  public void decrementTempo(int decrement) {
+    // only decrement if it will not make the tempo negative
+    tempo += decrement;
+  }
+
   public static final class Builder implements CompositionBuilder<IPiece> {
     private ArrayList<Note> notes = new ArrayList<Note>();
-    private int tempo;
+    private int tempo = 10000; // an arbitrary default value for tempo
     
     
     public Builder() {
