@@ -65,4 +65,5 @@ public class ConsoleView implements IView {
   public void update() {
     consoleText = piece.toString();
   }
+
 }

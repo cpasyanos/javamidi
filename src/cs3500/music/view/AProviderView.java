@@ -75,4 +75,5 @@ public abstract class AProviderView implements cs3500.music.view.IView {
   public void update() {
     // do nothing
   }
+
 }

@@ -25,6 +25,9 @@ public class Controller implements IController {
   private IPiece model;
   private int currBeat;
   private boolean paused;
+
+  // the amount to increment or decrement the tempo by
+  private static int deltaTempo = 5000;
   
   
   /**
@@ -99,6 +102,8 @@ public class Controller implements IController {
     keyPresses.put(KeyEvent.VK_SPACE, new TogglePause());
     keyPresses.put(KeyEvent.VK_END, new ToEnd());
     keyPresses.put(KeyEvent.VK_HOME, new ToStart());
+    keyPresses.put(KeyEvent.VK_UP, new IncrementTempo());
+    keyPresses.put(KeyEvent.VK_DOWN, new DecrementTempo());
 
     KeyHandler handler = new KeyHandler();
 
@@ -234,6 +239,28 @@ public class Controller implements IController {
         // scroll to next beat after adding note
         action.run();
       }
+    }
+  }
+
+  /**
+   * ADDED HW09: A functional class allowing the up arrow key to increment the tempo.
+   */
+  private class IncrementTempo implements Runnable {
+
+    @Override
+    public void run() {
+      model.incrementTempo(deltaTempo);
+    }
+  }
+
+  /**
+   * ADDED HW09: A functional class allowing the down arrow key to decrement the tempo.
+   */
+  private class DecrementTempo implements Runnable {
+
+    @Override
+    public void run() {
+      model.decrementTempo(deltaTempo);
     }
   }
   

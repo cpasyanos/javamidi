@@ -80,6 +80,16 @@ public class ViewModel implements IPiece {
   }
 
   @Override
+  public void incrementTempo(int increment) {
+    throw new UnsupportedOperationException("Not allowed by viewmodel");
+  }
+
+  @Override
+  public void decrementTempo(int decrement) {
+    throw new UnsupportedOperationException("Not allowed by viewmodel");
+  }
+
+  @Override
   public String toString() {
     Objects.requireNonNull(piece);
     return piece.toString();
