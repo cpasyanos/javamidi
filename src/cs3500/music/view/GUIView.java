@@ -30,11 +30,14 @@ public class GUIView implements IGUIView {
   private ScoreGraphic score;
   private PianoGraphic piano;
   private JPanel scoreWrapper;
+  private JPanel top;
+  private NoteGraphic notes;
   private int currBeat;
   private int rightEdge;
   private int leftEdge;
   private boolean paused;
   private int init;
+  private int update;
 
   /**
    * The constructor for the gui view. CurrBeat is set to 0 because a song always starts at 0.
@@ -47,16 +50,19 @@ public class GUIView implements IGUIView {
     this.scoreHolder = null;
     this.score = null;
     this.piano = null;
+    this.notes = null;
     this.scoreWrapper = new JPanel();
-
+    this.top = new JPanel();
+  
+  
     this.leftEdge = 0;
     this.rightEdge = 44;
 
     this.currBeat = 0;
     this.paused = true;
     
-    this.init = 0;
-
+    //this.init = 0;
+    //this.update = 0;
 
   }
   
@@ -121,7 +127,7 @@ public class GUIView implements IGUIView {
       displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.PAGE_AXIS));
       displayPanel.setPreferredSize(new Dimension(1200, 1000));
   
-      JPanel top = new JPanel();
+      top = new JPanel();
       top.setLayout(new BorderLayout());
       top.setPreferredSize(new Dimension(1200, 600));
   
@@ -129,7 +135,7 @@ public class GUIView implements IGUIView {
       bottom.setLayout(new BorderLayout());
       bottom.setPreferredSize(new Dimension(1200, 400));
   
-      NoteGraphic notes = new NoteGraphic(this.piece);
+      notes = new NoteGraphic(this.piece);
   
       bottom.add(piano, BorderLayout.CENTER);
   
@@ -161,7 +167,15 @@ public class GUIView implements IGUIView {
       resetFocus();
     }
     
-    else {
+    if ((update == 1) && (init != 0)){
+      notes = new NoteGraphic(this.piece);
+      notes.setPreferredSize(new Dimension(100, 600));
+      notes.setFocusable(false);
+      top.add(notes, BorderLayout.WEST);
+      frame.repaint(0, 0, 0, 1200, 1200);
+    }
+    
+    if (init != 0) {
       frame.repaint(0, 0, 0, 1200, 1200);
       resetFocus();
     }
@@ -199,8 +213,9 @@ public class GUIView implements IGUIView {
 
     this.piano.updateList(this.getList());
     this.score.updateList(this.getList());
-    init = 0;
-
+    //init = 0;
+    update = 1;
+    
     // piano.invalidate();
 
     frame.repaint(0,0,0,1200,1200);
