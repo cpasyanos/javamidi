@@ -312,17 +312,17 @@ class PianoGraphic extends JPanel {
     this.noteList.clear();
     this.noteList = notes;
 
-    currNotes.clear();
+    //currNotes.clear();
 
 
-    for (Note n: this.noteList) {
+    /*for (Note n: this.noteList) {
       if ((n.getFirstBeatOf() <= currBeat)
               && ((n.getFirstBeatOf() + n.getDuration() - 2) >= currBeat)) {
         currNotes.add(n);
       }
-    }
+    }*/
 
-    for (Note n: this.currNotes) {
+    for (Note n: this.noteList) {
       System.out.print(n.toString() + " ");
     }
 
