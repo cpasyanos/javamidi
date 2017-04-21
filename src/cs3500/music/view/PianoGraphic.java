@@ -32,8 +32,9 @@ class PianoGraphic extends JPanel {
     this.currNotes = new ArrayList<>();
     this.noteList = notes;
     for (Note n: this.noteList) {
-      if ((n.getFirstBeatOf() <= currBeat)
-              && ((n.getFirstBeatOf() + n.getDuration() - 1) >= currBeat)) {
+      if (((n.getFirstBeatOf() <= currBeat)
+              && ((n.getFirstBeatOf() + n.getDuration() - 2) >= currBeat))
+              || ((n.getFirstBeatOf() == currBeat) && (n.getDuration() == 1))) {
         currNotes.add(n);
       }
     }
@@ -49,8 +50,9 @@ class PianoGraphic extends JPanel {
     }
     currNotes.clear();
     for (Note n: this.noteList) {
-      if ((n.getFirstBeatOf() <= currBeat)
-              && ((n.getFirstBeatOf() + n.getDuration() - 2) >= currBeat)) {
+      if (((n.getFirstBeatOf() <= currBeat)
+              && ((n.getFirstBeatOf() + n.getDuration() - 2) >= currBeat))
+              || ((n.getFirstBeatOf() == currBeat) && (n.getDuration() == 1))) {
         currNotes.add(n);
       }
     }
@@ -66,8 +68,9 @@ class PianoGraphic extends JPanel {
     }
     currNotes.clear();
     for (Note n: this.noteList) {
-      if ((n.getFirstBeatOf() <= currBeat)
-              && ((n.getFirstBeatOf() + n.getDuration() - 2) >= currBeat)) {
+      if (((n.getFirstBeatOf() <= currBeat)
+              && ((n.getFirstBeatOf() + n.getDuration() - 2) >= currBeat))
+              || ((n.getFirstBeatOf() == currBeat) && (n.getDuration() == 1))) {
         currNotes.add(n);
       }
     }
@@ -309,23 +312,18 @@ class PianoGraphic extends JPanel {
    * @param notes the list of notes in the piece.
    */
   void updateList(List<Note> notes) {
-    this.noteList.clear();
+    //this.noteList.clear();
     this.noteList = notes;
 
     currNotes.clear();
-
-
+  
+  
     for (Note n: this.noteList) {
-      if ((n.getFirstBeatOf() <= currBeat)
-              && ((n.getFirstBeatOf() + n.getDuration() - 2) >= currBeat)) {
+      if (((n.getFirstBeatOf() <= currBeat)
+              && ((n.getFirstBeatOf() + n.getDuration() - 2) >= currBeat))
+              || ((n.getFirstBeatOf() == currBeat) && (n.getDuration() == 1))) {
         currNotes.add(n);
       }
     }
-
-    for (Note n: this.currNotes) {
-      System.out.print(n.toString() + " ");
-    }
-
-    System.out.println("updated");
   }
 }

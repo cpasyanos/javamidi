@@ -3,6 +3,7 @@ package cs3500.music.view;
 import cs3500.music.model.IPiece;
 import cs3500.music.model.Note;
 
+import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Canvas;
 import java.awt.Font;
@@ -10,7 +11,7 @@ import java.awt.Font;
 /**
  * Creates the top side list of notes in the piece for the gui view.
  */
-class NoteGraphic extends Canvas {
+class NoteGraphic extends JPanel {
   IPiece piece;
 
   /**
@@ -23,6 +24,7 @@ class NoteGraphic extends Canvas {
 
   @Override
   public void paint(Graphics g) {
+    
     // the note this method is currently working on
     Note currNote = piece.getHighestNote();
     

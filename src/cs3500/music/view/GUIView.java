@@ -38,7 +38,7 @@ public class GUIView implements IGUIView {
   private boolean paused;
   private int init;
   private int update;
-
+  
   /**
    * The constructor for the gui view. CurrBeat is set to 0 because a song always starts at 0.
    * Piece is set to null until assignPiece is null.
@@ -53,17 +53,17 @@ public class GUIView implements IGUIView {
     this.notes = null;
     this.scoreWrapper = new JPanel();
     this.top = new JPanel();
-  
-  
+    
+    
     this.leftEdge = 0;
     this.rightEdge = 44;
-
+    
     this.currBeat = 0;
     this.paused = true;
     
     //this.init = 0;
     //this.update = 0;
-
+    
   }
   
   
@@ -78,7 +78,7 @@ public class GUIView implements IGUIView {
   public void scrollForward() {
     score.scrollForward();
     piano.scrollForward();
-
+    
     if (currBeat <= (piece.getNumBeats()) - 1) {
       currBeat++;
     }
@@ -111,68 +111,65 @@ public class GUIView implements IGUIView {
       init = 1;
       this.currBeat = beat;
       this.score = new ScoreGraphic(this.piece, this.getList());
-
+      
       this.score.setCurrBeat(this.currBeat);
       this.piano.setCurrBeat(this.currBeat);
-  
+      
       this.scoreWrapper = new JPanel();
       scoreWrapper.add(score);
       scoreHolder = new JScrollPane(scoreWrapper);
-  
+      
       this.addKeyListener(new KeyHandler());
-  
+      
       score.setFocusable(false);
-  
+      
       JPanel displayPanel = new JPanel();
       displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.PAGE_AXIS));
       displayPanel.setPreferredSize(new Dimension(1200, 1000));
-  
+      
       top = new JPanel();
       top.setLayout(new BorderLayout());
       top.setPreferredSize(new Dimension(1200, 600));
-  
+      
       JPanel bottom = new JPanel();
       bottom.setLayout(new BorderLayout());
       bottom.setPreferredSize(new Dimension(1200, 400));
-  
+      
       notes = new NoteGraphic(this.piece);
-  
+      
       bottom.add(piano, BorderLayout.CENTER);
-  
+      
       notes.setPreferredSize(new Dimension(100, 600));
       notes.setFocusable(false);
       top.add(notes, BorderLayout.WEST);
-  
+      
       score.setPreferredSize(new Dimension(25 * piece.getNumBeats() + 200, 600));
-  
+      
       scoreHolder.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
       scoreHolder.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-  
+      
       scoreHolder.setPreferredSize(new Dimension(1100, 600));
       top.add(scoreHolder);
-  
+      
       bottom.setFocusable(false);
-  
+      
       displayPanel.add(top, BorderLayout.NORTH);
       displayPanel.add(bottom, BorderLayout.SOUTH);
-  
+      
       this.frame.setResizable(false);
       this.frame.setContentPane(displayPanel);
       this.frame.pack();
       this.frame.setVisible(true);
       //scoreHolder.setFocusable(false);
-  
+      
       paused = false;
-  
+      
       resetFocus();
     }
     
-    if ((update == 1) && (init != 0)){
+    if (update == 1){
+      notes = null;
       notes = new NoteGraphic(this.piece);
-      notes.setPreferredSize(new Dimension(100, 600));
-      notes.setFocusable(false);
-      top.add(notes, BorderLayout.WEST);
-      frame.repaint(0, 0, 0, 1200, 1200);
     }
     
     if (init != 0) {
@@ -180,47 +177,46 @@ public class GUIView implements IGUIView {
       resetFocus();
     }
   }
-
+  
   @Override
   public void resetFocus() {
     this.frame.setFocusable(true);
     this.frame.requestFocus();
   }
-
+  
   @Override
   public void addKeyListener(KeyListener listener) {
     frame.addKeyListener(listener);
   }
-
+  
   @Override
   public void addMouseListener(MouseListener listener) {
     piano.addMouseListener(listener);
   }
-
+  
   @Override
   public void togglePause() {
     paused = !paused;
   }
-
+  
   @Override
   public Note getNoteOnPiano() {
     return piano.getClickedNote();
   }
-
+  
   @Override
   public void update() {
     piano.invalidate();
-
+    
     this.piano.updateList(this.getList());
     this.score.updateList(this.getList());
     //init = 0;
     update = 1;
     
-    // piano.invalidate();
-
+    
     frame.repaint(0,0,0,1200,1200);
   }
-
+  
   /**
    * Creates a list of every note in the piece allowing for more efficient iteration.
    * @return the list of notes.
@@ -234,7 +230,7 @@ public class GUIView implements IGUIView {
     }
     return notes;
   }
-
+  
   /**
    * Scrolls the view forward.
    */
@@ -250,7 +246,7 @@ public class GUIView implements IGUIView {
       this.leftEdge += 4;
     }
   }
-
+  
   /**
    * Scrolls the view back.
    */
