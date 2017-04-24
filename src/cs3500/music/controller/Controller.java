@@ -234,7 +234,7 @@ public class Controller implements IController {
 
         // update view to reflect new note
         view.update();
-        view.show(currBeat);
+        //view.show(currBeat);
 
         // scroll to next beat after adding note
         action.run();
@@ -249,7 +249,9 @@ public class Controller implements IController {
 
     @Override
     public void run() {
-      model.incrementTempo(deltaTempo);
+      if (paused) {
+        model.incrementTempo(deltaTempo);
+      }
     }
   }
 
@@ -260,7 +262,9 @@ public class Controller implements IController {
 
     @Override
     public void run() {
-      model.decrementTempo(deltaTempo);
+      if (paused) {
+        model.decrementTempo(deltaTempo);
+      }
     }
   }
   

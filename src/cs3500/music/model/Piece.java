@@ -37,11 +37,15 @@ public class Piece implements IPiece {
 
     // if the start beat is past the end of the current beats, add empty beats until the list of
     // beats is a proper size
-    if (start + (duration - 1) >= this.beats.size()) {
+    if ((duration == 1) && (start == this.beats.size())) {
+      beats.add(new Beat(this.beats.size()));
+    }
+    else if (start + (duration - 1) >= this.beats.size()) {
       for (int i = this.beats.size(); i < start + (duration - 1); i++) {
         beats.add(new Beat(i));
       }
     }
+    
     
     // now add the note
     beats.get(start).addNote(new Note(duration, start, octave, pitch, volume, instrument));
