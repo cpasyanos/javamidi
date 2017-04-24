@@ -29,7 +29,6 @@ public class MouseHandler extends MouseAdapter {
   @Override
   public void mousePressed(MouseEvent e) {
     // System.out.println("e = [" + e.getButton() + "]");
-
     if (mousePressedMap.containsKey(e.getButton())) {
       mousePressedMap.get(e.getButton()).run();
     }
