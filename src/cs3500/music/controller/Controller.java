@@ -118,6 +118,7 @@ public class Controller implements IController {
         }
 
         if (numNotesAt == numPressed) {
+          view.show(currBeat);
           playedNotes.clear();
           advance.run();
         }
