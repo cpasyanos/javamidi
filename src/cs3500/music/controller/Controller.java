@@ -1,9 +1,6 @@
 package cs3500.music.controller;
 
-import cs3500.music.model.IPiece;
-import cs3500.music.model.Note;
-import cs3500.music.model.Piece;
-import cs3500.music.model.ViewModel;
+import cs3500.music.model.*;
 import cs3500.music.util.MusicReader;
 import cs3500.music.util.OurViewFactory;
 import cs3500.music.view.IView;
@@ -14,9 +11,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
+import java.util.Map;
 
 /**
  * The implementation of the controller interface.
@@ -29,6 +27,8 @@ public class Controller implements IController {
   private Date time;
   private boolean mousePressed;
   private int beatStart;
+  private boolean isPracticeMode;
+  private ArrayList<Note> playedNotes;
 
   // the amount to increment or decrement the tempo by
   private static int deltaTempo = 5000;
@@ -60,6 +60,11 @@ public class Controller implements IController {
 
     paused = true;
     currBeat = 0;
+
+    // defaults to not practice mode
+    isPracticeMode = false;
+
+    playedNotes = new ArrayList<Note>();
   }
 
   @Override
@@ -72,7 +77,53 @@ public class Controller implements IController {
     view.show(currBeat);
     
     Play playObject = new Play();
+
+    ArrayList<Note> listNotes = new ArrayList<>();
+
+    // collect all notes in model into one list
+    for (Beat b: this.model.getBeats()) {
+      for (Note n: b.getNotesAt()) {
+        listNotes.add(n);
+      }
+    }
+
+    // while there are still notes that can be played
     while (currBeat <= (model.getNumBeats() + 1)) {
+
+      //practice mode functionality.
+      while (isPracticeMode) {
+        ScrollForward advance = new ScrollForward();
+        ArrayList<Note> toPlay = new ArrayList<Note>();
+
+        int numNotesAt;
+        int numPressed = 0;
+
+        // get all of the notes that need to be pressed to advance
+        for (Note n: listNotes) {
+          if (((n.getFirstBeatOf() <= currBeat)
+                  && ((n.getFirstBeatOf() + n.getDuration() - 2) >= currBeat))
+                  || ((n.getFirstBeatOf() == currBeat) && (n.getDuration() == 1))) {
+            toPlay.add(n);
+          }
+        }
+
+        numNotesAt = toPlay.size();
+
+        for (Note note: toPlay) {
+          for (Note played : playedNotes) {
+            if (played.compareTo(note) == 0) {
+              numPressed++;
+            }
+          }
+        }
+
+        if (numNotesAt == numPressed) {
+          playedNotes.clear();
+          advance.run();
+        }
+      }
+
+      //non-practice mode functionality.
       while (!paused) {
         if (currBeat <= model.getNumBeats() - 2) {
           view.show(currBeat);
@@ -89,7 +140,7 @@ public class Controller implements IController {
           paused = true;
         }
       }
-      if (mousePressed) {
+      if (mousePressed && !isPracticeMode) {
         try {
           Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -99,6 +150,7 @@ public class Controller implements IController {
           new BeatDuration().run();
         }
       }
+
       // this makes it able to play again after pausing (????)
       System.out.print("");
     }
@@ -117,6 +169,7 @@ public class Controller implements IController {
     keyPresses.put(KeyEvent.VK_HOME, new ToStart());
     keyPresses.put(KeyEvent.VK_UP, new IncrementTempo());
     keyPresses.put(KeyEvent.VK_DOWN, new DecrementTempo());
+    keyPresses.put(KeyEvent.VK_ENTER, new ToggleMode());
 
     KeyHandler handler = new KeyHandler();
 
@@ -176,12 +229,16 @@ public class Controller implements IController {
 
   /**
    * A functional class allowing the spacebar to toggle the pause state of the view.
+   * ADDED HW09: Does not work while in practice mode.
    */
   private class TogglePause implements Runnable {
 
     @Override
     public void run() {
-      paused = !paused;
+
+      if (!isPracticeMode) {
+        paused = !paused;
+      }
     }
   }
 
@@ -235,27 +292,34 @@ public class Controller implements IController {
   }
   
   /**
-   * A functional class allowing a mouse click on the piano graphic to add a new note.
+   * A functional class that starts the addition of a new note. Modified HW09. ADDED HW09: Does
+   * not work while in practice mode.
    */
   private class StartAddNotes implements Runnable {
     
     @Override
     public void run() {
-      if (paused) {
+      if (paused && !isPracticeMode) {
         mousePressed = true;
         time = new Date();
         beatStart = currBeat;
       }
+      if (isPracticeMode) {
+        Note toAdd = view.getNoteOnPiano();
+        playedNotes.add(toAdd);
+        System.out.println(playedNotes.toString());
+      }
     }
   }
   /**
-   * A functional class allowing a mouse click on the piano graphic to add a new note.
+   * A functional class that ends the addition of a new note. Modified HW09. ADDED HW09: Does
+   * not work while in practice mode.
    */
   private class EndAddNotes implements Runnable {
     
     @Override
     public void run() {
-      if (paused) {
+      if (paused && !isPracticeMode) {
         mousePressed = false;
         long timePressed = new Date().getTime() - time.getTime();
         System.out.println(timePressed);
@@ -285,39 +349,42 @@ public class Controller implements IController {
   }
 
   /**
-   * ADDED HW09: A functional class allowing the up arrow key to increment the tempo.
+   * ADDED HW09: A functional class allowing the up arrow key to increment the tempo. Does not
+   * work while in practice mode.
    */
   private class IncrementTempo implements Runnable {
 
     @Override
     public void run() {
-      if (paused) {
+      if (paused && !isPracticeMode) {
         model.incrementTempo(deltaTempo);
       }
     }
   }
 
   /**
-   * ADDED HW09: A functional class allowing the down arrow key to decrement the tempo.
+   * ADDED HW09: A functional class allowing the down arrow key to decrement the tempo. Does not
+   * work while in practice mode.
    */
   private class DecrementTempo implements Runnable {
 
     @Override
     public void run() {
-      if (paused) {
+      if (paused && !isPracticeMode) {
         model.decrementTempo(deltaTempo);
       }
     }
   }
   
   /**
-   * TODO:
+   * ADDED HW09: Makes the line move forward when adding a note with multiple beats of duration.
+   * Does not work while in practice mode.
    */
   private class BeatDuration implements Runnable {
     
     @Override
     public void run() {
-      if (paused) {
+      if (paused && !isPracticeMode) {
         view.scrollForward();
         if (currBeat < model.getNumBeats()) {
           currBeat++;
@@ -327,5 +394,15 @@ public class Controller implements IController {
       }
     }
   }
-  
+
+  /**
+   * ADDED HW09: toggles whether or not the user is in practice mode.
+   */
+  private class ToggleMode implements Runnable {
+
+    @Override
+    public void run() {
+      isPracticeMode = !isPracticeMode;
+    }
+  }
 }

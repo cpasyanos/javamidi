@@ -221,7 +221,7 @@ public class GUIView implements IGUIView {
    * Creates a list of every note in the piece allowing for more efficient iteration.
    * @return the list of notes.
    */
-  private List<Note> getList() {
+  public List<Note> getList() {
     ArrayList<Note> notes = new ArrayList<Note>();
     for (Beat b: this.piece.getBeats()) {
       for (Note n: b.getNotesAt()) {
