@@ -9,7 +9,7 @@ import java.util.Objects;
  * at lower pitches. compareTo is blind to how far along in the piece a note is played at, as it
  * is only used to sort notes within a beat.
  */
-public class Note implements Comparable<Note> {
+public class Note implements IFeature {
   private final int duration;
   private final int octave;
   private final Pitch pitch;
@@ -55,15 +55,27 @@ public class Note implements Comparable<Note> {
   }
 
   @Override
-  public int compareTo(Note note) {
+  public int compareTo(IFeature toCompare) {
     // NOTE: Unlike Object.equals() (also overriden by this class), compareTo() only cares about
     // the octave and pitch of the compared notes, as it is ordering them in terms of pitch.
 
     // wil throw a nullpointerexception if the given note is null
-    Objects.requireNonNull(note);
+    Objects.requireNonNull(toCompare);
 
     // CHANGED HW06: the added getmidival gave a more elegant way to do the compareTo method
-    return this.getMidiVal() - note.getMidiVal();
+    // CHANGED HW09: added comparison for repeats;
+    
+    if (toCompare.isRepeat()){
+      return -1;
+    }
+    else {
+      if (toCompare.getClass() == Note.class) {
+        return this.getMidiVal() - ((Note) toCompare).getMidiVal();
+      }
+      else {
+        throw new IllegalArgumentException("Bad Input");
+      }
+    }
   }
 
   /**
@@ -208,5 +220,15 @@ public class Note implements Comparable<Note> {
    */
   public int getMidiVal() {
     return 12 * this.octave + pitch.getValue();
+  }
+  
+  @Override
+  public int getLocation() {
+    return firstBeatOf;
+  }
+  
+  @Override
+  public boolean isRepeat() {
+    return false;
   }
 }
