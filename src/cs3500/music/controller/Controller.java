@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.io.FileReader;
 import java.io.IOException;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -25,6 +26,9 @@ public class Controller implements IController {
   private IPiece model;
   private int currBeat;
   private boolean paused;
+  private Date time;
+  private boolean mousePressed;
+  private int beatStart;
 
   // the amount to increment or decrement the tempo by
   private static int deltaTempo = 5000;
@@ -85,7 +89,16 @@ public class Controller implements IController {
           paused = true;
         }
       }
-
+      if (mousePressed) {
+        try {
+          Thread.sleep(500);
+        } catch (InterruptedException e) {
+          System.out.print("Thread interrupted.");
+        }
+        if (mousePressed) {
+          new BeatDuration().run();
+        }
+      }
       // this makes it able to play again after pausing (????)
       System.out.print("");
     }
@@ -116,12 +129,13 @@ public class Controller implements IController {
    * A helper class for configuring mouse input by adding all supported mouse operations.
    */
   private void configureMouseListener() {
-    Map<Integer, Runnable> mousePresses = new HashMap<Integer, Runnable>();
-
-    mousePresses.put(1, new AddNotes());
+    Map<Integer, Runnable> runnableMap = new HashMap<Integer, Runnable>();
+  
+    runnableMap.put(0, new StartAddNotes());
+    runnableMap.put(1, new EndAddNotes());
 
     MouseHandler handler = new MouseHandler();
-    handler.setMousePressedMap(mousePresses);
+    handler.setRunnableMap(runnableMap);
 
     view.addMouseListener(handler);
   }
@@ -219,25 +233,53 @@ public class Controller implements IController {
       }
     }
   }
-
+  
   /**
    * A functional class allowing a mouse click on the piano graphic to add a new note.
    */
-  private class AddNotes implements Runnable {
-
+  private class StartAddNotes implements Runnable {
+    
     @Override
     public void run() {
       if (paused) {
-        ScrollForward action = new ScrollForward();
+        mousePressed = true;
+        time = new Date();
+        beatStart = currBeat;
+      }
+    }
+  }
+  /**
+   * A functional class allowing a mouse click on the piano graphic to add a new note.
+   */
+  private class EndAddNotes implements Runnable {
+    
+    @Override
+    public void run() {
+      if (paused) {
+        mousePressed = false;
+        long timePressed = new Date().getTime() - time.getTime();
+        System.out.println(timePressed);
         Note toAdd = view.getNoteOnPiano();
-        model.addNote(toAdd.getPitch(), toAdd.getOctave(), currBeat, 1, 70, 0);
-
+        int noteDur;
+        if (timePressed < 500) {
+          noteDur = 1;
+          System.out.println(noteDur);
+          view.scrollForward();
+          if (currBeat < model.getNumBeats()) {
+            currBeat++;
+          }
+        }
+        else {
+          noteDur = (int) (timePressed / 500);
+          System.out.println(noteDur);
+        }
+        
+        model.addNote(toAdd.getPitch(), toAdd.getOctave(), beatStart, noteDur+1, 70, 0);
+        
         // update view to reflect new note
         view.update();
-        //view.show(currBeat);
-
         // scroll to next beat after adding note
-        action.run();
+        view.show(currBeat);
       }
     }
   }
@@ -264,6 +306,24 @@ public class Controller implements IController {
     public void run() {
       if (paused) {
         model.decrementTempo(deltaTempo);
+      }
+    }
+  }
+  
+  /**
+   * TODO:
+   */
+  private class BeatDuration implements Runnable {
+    
+    @Override
+    public void run() {
+      if (paused) {
+        view.scrollForward();
+        if (currBeat < model.getNumBeats()) {
+          currBeat++;
+        }
+        view.show(currBeat);
+        
       }
     }
   }
