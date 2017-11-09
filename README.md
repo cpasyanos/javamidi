@@ -15,7 +15,7 @@ will play the 1st mystery file in the composite view.
 
 Navigating the GUI or composite views:
 
-Right and left arrow keys scroll the current beat ONLY WHEN THE PIECE IS PAUSED. The current beat scrolls automatically when playing. Home returns to the beginning of the piece, and end skips to the end. Left clicking on the keyboard while the music is paused will add a note of duration 1 to the music piece at the current beat and increment the current beat by one.
+Right and left arrow keys scroll the current beat ONLY WHEN THE PIECE IS PAUSED. The current beat scrolls automatically when playing. Home returns to the beginning of the piece, and end skips to the end. Left clicking on the keyboard while the music is paused will add a note of duration 1 to the music piece at the current beat. Holding down the mouse button allows for longer notes to be added.
 
 Model Design Notes:
 
